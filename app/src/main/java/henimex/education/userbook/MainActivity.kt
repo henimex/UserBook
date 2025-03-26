@@ -23,18 +23,10 @@ class MainActivity : ComponentActivity() {
             UserBookTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        UserList();
+                        //UserList();
                     }
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun UserListPreview() {
-    UserBookTheme {
-        UserList()
     }
 }
