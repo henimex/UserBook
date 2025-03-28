@@ -3,6 +3,7 @@ package henimex.education.userbook.cards
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,10 +14,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.google.gson.Gson
 import henimex.education.userbook.models.User
 import henimex.education.userbook.models.UserModel
 
@@ -47,7 +51,7 @@ fun UserCardV2(user: UserModel) {
                 modifier = Modifier.padding(bottom = 2.dp)
             )
             Text(
-                text = user.webSite,
+                text = user.website,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
@@ -61,11 +65,48 @@ fun UserCardV2(user: UserModel) {
 }
 
 @Composable
-fun UserCardV3(user: UserModel) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp)
-        .border(BorderStroke(3.dp,Color.Black))
-        .background(color = MaterialTheme.colorScheme.primaryContainer)
-    ) { }
+fun UserCardV3(user: UserModel, navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 1.dp, horizontal = 1.dp)
+            .border(BorderStroke(1.dp, Color.Gray), shape = RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = Color.LightGray)
+            .clickable {
+                navController.navigate("userdetail-screen/${Gson().toJson(user)}")
+            }
+        //.background(color = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        Column(modifier = Modifier.padding(3.dp)) {
+            Text(
+                text = (user.name),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(2.dp),
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = ("Email: " + user.email),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(2.dp),
+                fontWeight = FontWeight.Normal
+            )
+
+            Text(
+                text = (user.website),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(2.dp),
+                fontWeight = FontWeight.Normal
+            )
+
+            Text(
+                text = ("Phone: " + user.phone),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(2.dp),
+                fontWeight = FontWeight.Normal
+            )
+
+        }
+    }
 }
