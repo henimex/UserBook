@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,17 +21,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import henimex.education.userbook.models.Address
+import henimex.education.userbook.models.Company
+import henimex.education.userbook.models.Geo
 import henimex.education.userbook.models.UserModel
 import henimex.education.userbook.screens.DetailScreen
 import henimex.education.userbook.screens.NewUserList
 import henimex.education.userbook.screens.UserList
 
 import henimex.education.userbook.ui.theme.UserBookTheme
+import henimex.education.userbook.viewmodel.DetailViewModel
 import henimex.education.userbook.viewmodel.UserViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel: UserViewModel by viewModels<UserViewModel>()
+    private val detailViewModel: DetailViewModel by viewModels<DetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +55,30 @@ class MainActivity : ComponentActivity() {
 
                             composable(
                                 "userdetail-screen/{selectedUser}", arguments = listOf(
-                                navArgument("selectedUser") {
-                                    type = NavType.StringType
-                                }
-                            )) {
-                                val userString = remember {
-                                    it.arguments?.getString("selectedUser")
+                                    navArgument("selectedUser") {
+                                        type = NavType.IntType
+                                    }
+                                )) {
+                                //val userString = remember {
+                                //it.arguments?.getInt("selectedUser")
+                                //}
+                                //val selectedUser = Gson().fromJson(userString, UserModel::class.java)
+                                //DetailScreen(user = selectedUser)
+
+                                val userIndex = remember {
+                                    it.arguments?.getInt("selectedUser")
                                 }
 
-                                val selectedUser = Gson().fromJson(userString, UserModel::class.java)
+                                val selectedUser = produceState(initialValue = UserModel(
+                                    0,"","","",
+                                    Address("","","","",
+                                        Geo("","")),"","",
+                                    Company("","",""),
+                                )) {
+                                    value = detailViewModel.getSingleUser(userIndex?:0)
+                                }
 
-                                DetailScreen(user = selectedUser)
+                                DetailScreen(user = selectedUser.value)
                             }
                         }
                         //UserList();

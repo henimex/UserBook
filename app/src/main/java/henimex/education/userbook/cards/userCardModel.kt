@@ -65,7 +65,7 @@ fun UserCardV2(user: UserModel) {
 }
 
 @Composable
-fun UserCardV3(user: UserModel, navController: NavController) {
+fun UserCardV3(user: UserModel, navController: NavController, currentIndex: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +74,8 @@ fun UserCardV3(user: UserModel, navController: NavController) {
             .clip(RoundedCornerShape(10.dp))
             .background(color = Color.LightGray)
             .clickable {
-                navController.navigate("userdetail-screen/${Gson().toJson(user)}")
+                //navController.navigate("userdetail-screen/${Gson().toJson(user)}")
+                navController.navigate("userdetail-screen/${currentIndex}")
             }
         //.background(color = MaterialTheme.colorScheme.primaryContainer)
     ) {

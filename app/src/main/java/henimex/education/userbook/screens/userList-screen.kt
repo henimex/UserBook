@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +30,8 @@ fun NewUserList(userList: List<UserModel>, navController: NavController) {
             .fillMaxSize()
             .background(color = Color.Transparent)
     ) {
-        items(userList) {
-            UserCardV3(it,navController)
+        itemsIndexed(userList) { index, item ->
+            UserCardV3(item, navController, currentIndex = index)
         }
     }
 }
